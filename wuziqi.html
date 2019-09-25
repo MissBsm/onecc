@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .big {
+            position: relative;
+        }
+
+        .bigbox {
+            margin: 0 auto;
+            background-color: rgb(238, 204, 153);
+            width: 600px;
+            height: 600px;
+            position: relative;
+        }
+
+        .qizi {
+            width: 600px;
+            height: 600px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .qizicolor {
+            width: 150px;
+            height: 150px;
+            position: absolute;
+            left: 0px;
+            background-color: pink;
+            text-align: center;
+            top: 0;
+        }
+
+        .qizicolor>span {
+            width: 50px;
+            height: 50px;
+            display: block;
+            border-radius: 50%;
+            margin: 10px auto;
+
+        }
+
+
+        .qizi>ul {
+            overflow: hidden;
+            list-style: none;
+            padding: 0;
+            margin: 0 auto;
+        }
+
+        .boxli {
+            float: left;
+            background: #fff;
+            /* width: 30px;
+            height: 30px; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="big">
+        <div class="bigbox">
+            <div class="box">
+                <canvas id="qipang" class="qipang" width="600" height="600"></canvas>
+                <!-- <canvas id="line" class="line" width="600" height="600"></canvas> -->
+            </div>
+            <div class="qizi">
+                <!-- <ul>
+                    <li class="boxli"></li>
+                </ul>
+                 -->
+            </div>
+
+        </div>
+    </div>
+
+    <script src="./jquery-3.4.1.min.js"></script>
+    <script>
+
+        var canvas = document.getElementById('qipang');
+        var context = canvas.getContext('2d');
+        var fengxi = (canvas.width - 100) / 14;
+        context.fillStyle = '#111';
+        context.strokeStyle = '#111';
+        context.font = '18px 微软雅黑';
+        var zimu = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'N', 'M', 'O'];
+
+        var qizi = document.getElementsByClassName('qizi')[0];
+
+
+        //保存格子的坐标
+        // var obi = [];
+        context.beginPath();
+        for (i = 50; i <= 550; i += fengxi) {
+            context.moveTo(50, i);
+            context.lineTo(550, i)
+            for (j = 50; j <= 550; j += fengxi) {
+
+                context.moveTo(j, 50);
+                context.lineTo(j, 550);
+                // var x = j;
+                // var y = i;
+                // obi.push({ x: x, y: y });
+            }
+
+        }
+        // console.log('obi==', obi);
+        // for (i = 50; i <= 550; i += fengxi) {
+        //     for (j = 50; j <= 550; j += fengxi) {
+
+        //         context.moveTo(j, 50);
+        //         context.lineTo(j, 550);
+
+        //     }
+        // }       
+        context.strokeRect(45, 45, 510, 510);
+        context.closePath();
+        context.stroke();
+
+        for (i = 1; i <= 15; i++) {
+            context.beginPath();
+
+            // context.textAlign = center;
+            context.fillText(i, 20, fengxi / 2 + i * fengxi);
+            context.fillText(zimu[i - 1], 10 + i * fengxi, 30);
+            context.closePath();
+        }
+        var color = true;
+        var obj = [];
+        var arr = [];
+
+        qizi.onmousedown = function (e) {
+            // console.log(e);
+            var xo = e.offsetX;
+            var yo = e.offsetY;
+            // var obj = [];
+            if ((e.offsetX - 50) % fengxi !== 0) {
+                if ((e.offsetX - 50) % fengxi <= fengxi / 2) {
+                    xo = e.offsetX - (e.offsetX - 50) % fengxi;
+                } else {
+                    xo = e.offsetX + fengxi - (e.offsetX - 50) % fengxi;
+                }
+                console.log('xo==', xo);
+            }
+            if ((e.offsetY - 50) % fengxi !== 0) {
+                if ((e.offsetY - 50) % fengxi <= fengxi / 2) {
+                    yo = e.offsetY - (e.offsetY - 50) % fengxi;
+                } else {
+                    yo = e.offsetY + fengxi - (e.offsetY - 50) % fengxi;
+                }
+                console.log('yo==', yo);
+            }
+
+            for (i = 0; i < obj.length; i++) {
+                console.log('hahaha', obj[i].x, obj[i].y);
+                if (xo == obj[i].x && yo == obj[i].y) {
+                    console.log('这里已经有棋了');
+                    return;
+                }
+                
+                
+            }
+            obj.push({ x: xo, y: yo });
+            // console.log('obj', obj);
+
+            // console.log('xy==',fengxi / 2, yo, e.offsetY,(e.offsetY-50) % fengxi);
+
+            // console.log('xy==', xo, yo);
+
+            context.beginPath();
+            if (color) {
+                context.fillStyle = '#000';
+            } else {
+                context.fillStyle = '#fff';
+            }
+            if (e.offsetX < 45 || e.offsetY < 45 || e.offsetX > 555 || e.offsetY > 555) {
+                return;
+            }
+
+            color = !color;
+            // context.lineWidth = 5;
+            // context.fillStyle = '#000';
+            context.arc(xo, yo, 10, 2 * Math.PI, false);
+            context.fill();
+            context.closePath();
+        }
+    </script>
+
+</body>
+
+</html>

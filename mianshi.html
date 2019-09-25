@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+
+    <script>
+        function numberThousandth(num) {
+            // var num = 4827897;
+            var arr = [];
+            num = num.toString(10);
+            console.log('num', num);
+            var j = -3;
+            for (i = num.length - 1; i >= 0; i--) {
+
+                if (j == 0) {
+                    arr.push(',');
+                    j=-3
+                }
+                arr.push(num[i]);
+                j+=1;
+                // j = j % 3;
+
+
+            }
+
+            arr.reverse();
+            arr.join('');
+            console.log('arr==>', arr.join(''));
+
+            return arr;
+        }
+        numberThousandth(23122414789);
+
+
+        function doushu(a) {
+            var endTime = new Date(a).getTime();
+            console.log('endTime',endTime);
+
+            //当前日期, 毫秒
+            var currentTime = new Date().getTime();
+            console.log('currentTime',currentTime);
+
+            //毫秒差 = 截至日期 - 当前日期
+            var time = endTime - currentTime;
+            console.log('time',time);
+
+            //天
+            var days = Math.floor(time / 1000 / 60 / 60 / 24 % 24);
+            days = days > 10 ? days : '0' + days;
+
+            //时
+            var hours = Math.floor(time / 1000 / 60 / 60 % 24);
+            hours = hours > 10 ? hours : '0' + hours;
+
+            //分
+            var minutes = Math.floor(time / 1000 / 60 % 60);
+            minutes = minutes > 10 ? minutes : '0' + minutes;
+
+            //秒
+            var seconds = Math.floor(time / 1000 % 60);
+            seconds = seconds > 10 ? seconds : '0' + seconds;
+
+            console.log(days + '天 ' + hours + '时' + minutes + '分' + seconds + '秒');
+        }
+
+        doushu('2019/10/10 00:00:00')
+    </script>
+</body>
+
+</html>
